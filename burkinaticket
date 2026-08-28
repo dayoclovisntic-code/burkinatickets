@@ -1,0 +1,2167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Burkina Tickets - Plateforme Événementielle</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & VARIABLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1e2b3a;
+            --secondary: #f5b342;
+            --secondary-dark: #e09e2f;
+            --bg: #f5f3f0;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --radius: 20px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --danger: #e74c3c;
+            --success: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--primary);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
+
+        /* ===== HEADER ===== */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: var(--primary);
+            color: var(--white);
+            padding: 18px 32px;
+            border-radius: var(--radius);
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(30, 43, 58, 0.95);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo img {
+            height: 38px;
+            width: auto;
+            border-radius: 8px;
+        }
+        .logo span { color: var(--secondary); }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: #ddd;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--secondary);
+            border-bottom-color: var(--secondary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .header-actions .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .header-actions .btn-outline:hover {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+        .header-actions .btn-orange {
+            background: var(--secondary);
+            color: var(--primary);
+            border: none;
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header-actions .btn-orange:hover {
+            background: var(--secondary-dark);
+            transform: scale(1.03);
+        }
+        .header-actions .icon-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        .header-actions .icon-btn:hover { color: var(--secondary); }
+        .badge-notif {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background: var(--danger);
+            color: white;
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 20px;
+            font-weight: 700;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* ===== BANNIÈRE ===== */
+        .hero-banner {
+            background: linear-gradient(135deg, var(--primary), #2d4055);
+            border-radius: var(--radius);
+            padding: 40px 50px;
+            margin-bottom: 35px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: var(--secondary);
+            opacity: 0.1;
+            border-radius: 50%;
+        }
+        .hero-banner h1 {
+            font-size: 32px;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-banner h1 span { color: var(--secondary); }
+        .hero-banner p { opacity: 0.85; margin-top: 6px; font-size: 16px; position: relative; z-index: 1; }
+        .hero-stats {
+            display: flex;
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-stats div { text-align: center; }
+        .hero-stats .number {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+        .hero-stats .label { font-size: 13px; opacity: 0.7; }
+
+        /* ===== TOAST NOTIFICATION ===== */
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 400px;
+        }
+        .toast {
+            background: var(--white);
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideInRight 0.4s ease;
+            min-width: 280px;
+            border-left: 4px solid var(--secondary);
+        }
+        .toast.success { border-left-color: var(--success); }
+        .toast.error { border-left-color: var(--danger); }
+        .toast .toast-icon { font-size: 24px; }
+        .toast .toast-msg { font-weight: 500; flex: 1; }
+        .toast .toast-close {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #999;
+            margin-left: auto;
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ===== FILTRES ===== */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+            background: var(--white);
+            padding: 16px 24px;
+            border-radius: 60px;
+            box-shadow: var(--shadow);
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 90px;
+            z-index: 50;
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.95);
+        }
+        .filters .search-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 200px;
+        }
+        .filters .search-box input {
+            border: none;
+            outline: none;
+            font-size: 15px;
+            padding: 10px 0;
+            width: 100%;
+            background: transparent;
+        }
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .filter-tags span {
+            background: #eee;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .filter-tags span:hover,
+        .filter-tags span.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+        .filter-tags span.active { background: var(--secondary); color: var(--primary); }
+
+        .view-options {
+            display: flex;
+            gap: 8px;
+        }
+        .view-options button {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .view-options button.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+        .view-options button:hover:not(.active) { background: #eee; }
+
+        /* ===== GRILLE ÉVÉNEMENTS ===== */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+            transition: all 0.3s ease;
+        }
+        .events-grid.list-view {
+            grid-template-columns: 1fr;
+        }
+        .events-grid.list-view .event-card {
+            display: flex;
+            flex-direction: row;
+            max-height: 220px;
+        }
+        .events-grid.list-view .event-img {
+            width: 300px;
+            height: 100%;
+            flex-shrink: 0;
+        }
+        .events-grid.list-view .event-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* ===== CARTE ÉVÉNEMENT ===== */
+        .event-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .event-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .event-img {
+            height: 210px;
+            background: #2d3f52;
+            position: relative;
+            overflow: hidden;
+        }
+        .event-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .event-card:hover .event-img img { transform: scale(1.05); }
+
+        .event-img .badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: var(--secondary);
+            color: var(--primary);
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .event-img .badge-live {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: var(--danger);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+        .event-img .badge-soldout {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .event-body {
+            padding: 20px 24px 24px;
+        }
+        .event-body .category {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--secondary);
+            margin-bottom: 4px;
+        }
+        .event-body h3 {
+            font-size: 20px;
+            margin-bottom: 6px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        .event-body .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 20px;
+            font-size: 14px;
+            color: #666;
+            margin: 8px 0 12px;
+        }
+        .event-body .meta i { width: 18px; color: var(--secondary); }
+        .event-body .price {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 4px 0 14px;
+        }
+        .event-body .price small {
+            font-size: 14px;
+            font-weight: 400;
+            color: #999;
+        }
+        .event-body .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn-details {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .btn-details:hover { background: #2d4055; transform: scale(1.02); }
+        .btn-buy {
+            background: var(--secondary);
+            color: var(--primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .btn-buy:hover { background: var(--secondary-dark); transform: scale(1.02); }
+        .btn-buy:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ===== PAGINATION ===== */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+        .pagination button {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: var(--white);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .pagination button:hover:not(:disabled) {
+            background: var(--primary);
+            color: var(--white);
+        }
+        .pagination button.active {
+            background: var(--secondary);
+            border-color: var(--secondary);
+            color: var(--primary);
+            font-weight: 700;
+        }
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ===== MODAL AUTH ===== */
+        .auth-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .auth-modal-overlay.open { display: flex; }
+        .auth-modal {
+            background: var(--white);
+            max-width: 480px;
+            width: 100%;
+            border-radius: 28px;
+            padding: 35px 34px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            animation: slideUp 0.35s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .auth-modal .auth-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .auth-modal .auth-header h2 {
+            font-size: 26px;
+            color: var(--primary);
+        }
+        .auth-modal .auth-header p {
+            color: #666;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        .auth-modal .auth-header .auth-icon {
+            font-size: 50px;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        .auth-modal .form-group {
+            margin-bottom: 16px;
+        }
+        .auth-modal .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+        .auth-modal .form-group input,
+        .auth-modal .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .auth-modal .form-group input:focus,
+        .auth-modal .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(245, 179, 66, 0.2);
+        }
+        .auth-modal .form-group .input-with-icon {
+            position: relative;
+        }
+        .auth-modal .form-group .input-with-icon i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        .auth-modal .form-group .input-with-icon input {
+            padding-left: 44px;
+        }
+        .auth-modal .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .auth-modal .btn-auth {
+            width: 100%;
+            padding: 14px;
+            background: var(--secondary);
+            color: var(--primary);
+            border: none;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .auth-modal .btn-auth:hover {
+            background: var(--secondary-dark);
+            transform: scale(1.01);
+        }
+        .auth-modal .btn-auth:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .auth-modal .auth-footer {
+            text-align: center;
+            margin-top: 18px;
+            color: #666;
+            font-size: 14px;
+        }
+        .auth-modal .auth-footer a {
+            color: var(--secondary);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .auth-modal .auth-footer a:hover {
+            text-decoration: underline;
+        }
+        .auth-modal .code-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .auth-modal .code-container input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 6px;
+            font-weight: 700;
+        }
+        .auth-modal .code-container input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(245, 179, 66, 0.2);
+        }
+        .auth-modal .code-container .btn-code {
+            padding: 12px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        .auth-modal .code-container .btn-code:hover {
+            background: #2d4055;
+        }
+        .auth-modal .code-container .btn-code:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .auth-modal .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 12px 0;
+        }
+        .auth-modal .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--secondary);
+        }
+        .auth-modal .checkbox-group label {
+            font-size: 14px;
+            color: #555;
+            cursor: pointer;
+        }
+        .auth-modal .auth-tabs {
+            display: flex;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 2px solid #e0e0e0;
+        }
+        .auth-modal .auth-tabs button {
+            flex: 1;
+            padding: 12px;
+            background: var(--white);
+            border: none;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .auth-modal .auth-tabs button.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+        .auth-modal .auth-tabs button:hover:not(.active) {
+            background: #f0f0f0;
+        }
+        .auth-modal .auth-form {
+            display: none;
+        }
+        .auth-modal .auth-form.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* ===== MODAL PRINCIPALE ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--white);
+            max-width: 650px;
+            width: 100%;
+            border-radius: 28px;
+            padding: 32px 34px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            animation: slideUp 0.35s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(40px) scale(0.96); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .modal-close {
+            position: sticky;
+            top: 0;
+            float: right;
+            font-size: 28px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #999;
+            transition: var(--transition);
+            z-index: 10;
+        }
+        .modal-close:hover { color: var(--primary); transform: rotate(90deg); }
+        .modal-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin: 10px 0 16px;
+        }
+        .modal .modal-category {
+            color: var(--secondary);
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .modal h2 { font-size: 28px; margin: 4px 0 12px; }
+        .modal .modal-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px 24px;
+            color: #555;
+            font-size: 15px;
+            margin: 10px 0 16px;
+        }
+        .modal .modal-meta i { width: 20px; color: var(--secondary); }
+        .modal .modal-desc {
+            line-height: 1.8;
+            color: #333;
+            background: #f8f6f4;
+            padding: 16px 20px;
+            border-radius: 16px;
+            margin: 12px 0 18px;
+        }
+        .modal .modal-price {
+            font-size: 34px;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 6px 0 14px;
+        }
+        .modal .modal-payment {
+            background: #f0f7fa;
+            padding: 14px 18px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 12px 0 18px;
+            border-left: 5px solid var(--secondary);
+        }
+        .modal .modal-payment img {
+            height: 32px;
+            width: auto;
+        }
+        .modal .modal-payment .payment-info {
+            flex: 1;
+        }
+        .modal .modal-payment .payment-info strong {
+            display: block;
+            color: var(--primary);
+        }
+        .modal .modal-payment .payment-info small {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .modal .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 14px 0;
+            padding: 12px 16px;
+            background: #f8f6f4;
+            border-radius: 12px;
+            flex-wrap: wrap;
+        }
+        .modal .quantity-selector label {
+            font-weight: 600;
+            flex: 1;
+        }
+        .modal .quantity-selector input {
+            width: 80px;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+        }
+        .modal .quantity-selector input:focus {
+            outline: 2px solid var(--secondary);
+            border-color: transparent;
+        }
+
+        .modal .btn-buy-lg {
+            background: var(--secondary);
+            color: var(--primary);
+            border: none;
+            padding: 14px 30px;
+            border-radius: 60px;
+            font-size: 18px;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .modal .btn-buy-lg:hover { background: var(--secondary-dark); transform: scale(1.01); }
+        .modal .btn-buy-lg:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .modal .related-events {
+            margin-top: 24px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .modal .related-events h4 {
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        .modal .related-events .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        .modal .related-events .related-item {
+            background: #f8f6f4;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--primary);
+        }
+        .modal .related-events .related-item:hover { background: var(--secondary); color: var(--primary); }
+        .modal .related-events .related-item img {
+            width: 100%;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .modal .related-events .related-item .r-title {
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        /* ===== MODAL ORGANISATEUR ===== */
+        .organizer-form input,
+        .organizer-form textarea,
+        .organizer-form select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        .organizer-form input:focus,
+        .organizer-form textarea:focus {
+            outline: 2px solid var(--secondary);
+            border-color: transparent;
+        }
+
+        /* ===== SECTION ===== */
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 30px 0 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title span { color: var(--secondary); }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            padding: 30px 0 10px;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+        footer .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        footer .footer-links a {
+            color: #666;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        footer .footer-links a:hover { color: var(--secondary); }
+        footer i { color: var(--secondary); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 12px; padding: 16px; }
+            .nav-links { justify-content: center; gap: 12px; }
+            .hero-banner { padding: 25px; text-align: center; flex-direction: column; }
+            .hero-stats { justify-content: center; }
+            .filters { border-radius: 30px; flex-direction: column; align-items: stretch; }
+            .filter-tags { justify-content: center; }
+            .modal { padding: 20px 18px; }
+            .modal .related-events .related-grid { grid-template-columns: 1fr 1fr; }
+            .events-grid { grid-template-columns: 1fr; }
+            .events-grid.list-view .event-card {
+                flex-direction: column;
+                max-height: none;
+            }
+            .events-grid.list-view .event-img {
+                width: 100%;
+                height: 200px;
+            }
+            .header-actions { justify-content: center; }
+            .auth-modal .form-row { grid-template-columns: 1fr; }
+            .auth-modal { padding: 25px 20px; }
+        }
+        @media (max-width: 480px) {
+            .header-actions .btn-outline { display: none; }
+            .hero-stats { flex-direction: column; gap: 10px; }
+            .toast-container { max-width: 90%; right: 5%; }
+            .auth-modal .code-container { flex-direction: column; }
+            .auth-modal .code-container .btn-code { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ===== TOAST CONTAINER ===== -->
+        <div class="toast-container" id="toastContainer"></div>
+
+        <!-- ===== HEADER ===== -->
+        <header>
+            <div class="logo">
+                <img src="https://picsum.photos/seed/burkina/80/80" alt="Logo Burkina Tickets" />
+                Burkina<span>Tickets</span>
+            </div>
+            <nav class="nav-links">
+                <a class="active" data-page="home"><i class="fas fa-home"></i> Accueil</a>
+                <a data-page="events"><i class="fas fa-calendar-alt"></i> Événements</a>
+                <a data-page="popular"><i class="fas fa-star"></i> Populaires</a>
+                <a data-page="cities"><i class="fas fa-map-marked-alt"></i> Villes</a>
+                <a data-page="about"><i class="fas fa-info-circle"></i> À propos</a>
+            </nav>
+            <div class="header-actions">
+                <button class="icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
+                <button class="icon-btn" onclick="showNotifications()">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge-notif" id="notifBadge">3</span>
+                </button>
+                <div class="user-menu-wrapper" style="position:relative;">
+                    <button class="icon-btn" onclick="toggleUserMenu()"><i class="fas fa-user-circle"></i></button>
+                    <div class="user-menu-dropdown" id="userMenuDropdown" style="display:none; position:absolute; top:45px; right:0; background:var(--white); border-radius:12px; box-shadow:0 15px 40px rgba(0,0,0,0.2); min-width:220px; padding:8px 0; z-index:200; animation:slideDown 0.3s ease;">
+                        <div style="padding:12px 20px; border-bottom:1px solid #eee;">
+                            <div id="userDisplayName" style="font-weight:700;">Invité</div>
+                            <div style="font-size:12px; color:#999;" id="userDisplayEmail">Non connecté</div>
+                        </div>
+                        <a class="menu-item" onclick="handleUserAction('profil')" style="padding:12px 20px; display:flex; align-items:center; gap:12px; color:var(--primary); text-decoration:none; cursor:pointer; transition:var(--transition);"><i class="fas fa-user" style="width:20px; color:var(--secondary);"></i> Mon profil</a>
+                        <a class="menu-item" onclick="handleUserAction('commandes')" style="padding:12px 20px; display:flex; align-items:center; gap:12px; color:var(--primary); text-decoration:none; cursor:pointer; transition:var(--transition);"><i class="fas fa-shopping-bag" style="width:20px; color:var(--secondary);"></i> Mes commandes</a>
+                        <a class="menu-item" onclick="handleUserAction('billets')" style="padding:12px 20px; display:flex; align-items:center; gap:12px; color:var(--primary); text-decoration:none; cursor:pointer; transition:var(--transition);"><i class="fas fa-ticket-alt" style="width:20px; color:var(--secondary);"></i> Mes billets</a>
+                        <a class="menu-item" onclick="handleUserAction('favoris')" style="padding:12px 20px; display:flex; align-items:center; gap:12px; color:var(--primary); text-decoration:none; cursor:pointer; transition:var(--transition);"><i class="fas fa-heart" style="width:20px; color:var(--secondary);"></i> Favoris</a>
+                        <div style="height:1px; background:#eee; margin:6px 0;"></div>
+                        <a class="menu-item" id="authMenuItem" onclick="openAuthModal()" style="padding:12px 20px; display:flex; align-items:center; gap:12px; color:var(--primary); text-decoration:none; cursor:pointer; transition:var(--transition);"><i class="fas fa-sign-in-alt" style="width:20px; color:var(--secondary);"></i> Connexion / Inscription</a>
+                        <a class="menu-item" id="logoutMenuItem" onclick="handleUserAction('deconnexion')" style="display:none; padding:12px 20px; display:flex; align-items:center; gap:12px; color:var(--primary); text-decoration:none; cursor:pointer; transition:var(--transition);"><i class="fas fa-sign-out-alt" style="width:20px; color:var(--danger);"></i> Déconnexion</a>
+                    </div>
+                </div>
+                <button class="btn-outline" onclick="openOrganizerModal()"><i class="fas fa-plus-circle"></i> Organiser</button>
+                <button class="btn-orange" onclick="showMyTickets()"><i class="fas fa-ticket-alt"></i> Mes billets <span id="cartCount" style="background:var(--primary); color:var(--secondary); padding:2px 8px; border-radius:20px; font-size:12px; margin-left:4px;">0</span></button>
+            </div>
+        </header>
+
+        <!-- ===== BANNIÈRE ===== -->
+        <div class="hero-banner">
+            <div>
+                <h1>Découvrez les <span>meilleurs événements</span> du Burkina</h1>
+                <p>Concerts, festivals, soirées, sports et culture — Réservez en 2 clics</p>
+                <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="btn-orange" style="background:var(--secondary); color:var(--primary); padding:10px 28px; border:none; border-radius:40px; font-weight:700; cursor:pointer;" onclick="document.getElementById('events').scrollIntoView({behavior:'smooth'})">
+                        <i class="fas fa-calendar-plus"></i> Voir les événements
+                    </button>
+                    <button style="background:transparent; border:2px solid white; color:white; padding:10px 28px; border-radius:40px; font-weight:600; cursor:pointer;" onclick="showToast('🎬 Découvrez comment réserver vos billets en 3 étapes simples !', 'info')">
+                        <i class="fas fa-play"></i> Comment ça marche
+                    </button>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div><div class="number" id="totalEvents">8</div><div class="label">Événements</div></div>
+                <div><div class="number">4</div><div class="label">Villes</div></div>
+                <div><div class="number">4.8</div><div class="label">⭐ Note</div></div>
+            </div>
+        </div>
+
+        <!-- ===== FILTRES ===== -->
+        <div class="filters" id="filters">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Rechercher un événement, artiste, lieu..." id="searchInput" />
+            </div>
+            <div class="filter-tags" id="filterTags">
+                <span class="active" data-filter="all">Tous</span>
+                <span data-filter="Concert">🎵 Concert</span>
+                <span data-filter="Soirée">🌙 Soirée</span>
+                <span data-filter="Festival">🎭 Festival</span>
+                <span data-filter="Sport">⚽ Sport</span>
+                <span data-filter="Théâtre">🎪 Théâtre</span>
+                <span data-filter="Culture">🏛️ Culture</span>
+            </div>
+            <div class="view-options">
+                <button class="active" onclick="setView('grid')" title="Vue grille"><i class="fas fa-th"></i></button>
+                <button onclick="setView('list')" title="Vue liste"><i class="fas fa-list"></i></button>
+                <button onclick="sortEvents()" title="Trier"><i class="fas fa-sort-amount-down"></i></button>
+            </div>
+        </div>
+
+        <!-- ===== GRILLE ÉVÉNEMENTS ===== -->
+        <div class="section-title" id="events">
+            <i class="fas fa-calendar-check" style="color:var(--secondary);"></i>
+            Événements <span>en cours</span>
+            <span style="font-size:14px; font-weight:400; color:#999; margin-left:auto;">
+                <i class="fas fa-circle" style="color:#2ecc71; font-size:10px;"></i> 
+                <span id="eventCount">0</span> événements disponibles
+            </span>
+        </div>
+        <div class="events-grid" id="eventsGrid">
+            <!-- Les cartes seront injectées par JS -->
+        </div>
+
+        <!-- ===== PAGINATION ===== -->
+        <div class="pagination" id="pagination">
+            <!-- Injecté par JS -->
+        </div>
+
+        <!-- ===== SECTION POPULAIRES ===== -->
+        <div class="section-title" id="popular">
+            <i class="fas fa-fire" style="color:var(--secondary);"></i>
+            Événements <span>populaires</span>
+        </div>
+        <div class="events-grid" id="popularGrid">
+            <!-- Injecté par JS -->
+        </div>
+
+        <!-- ===== SECTION VILLES ===== -->
+        <div class="section-title" id="cities">
+            <i class="fas fa-city" style="color:var(--secondary);"></i>
+            Événements par <span>ville</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:15px; margin-bottom:30px;">
+            <div style="background:var(--white); padding:20px; border-radius:16px; text-align:center; box-shadow:var(--shadow); cursor:pointer; transition:var(--transition);" onclick="filterByCity('Ouagadougou')" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+                <i class="fas fa-city" style="font-size:30px; color:var(--secondary);"></i>
+                <h4>Ouagadougou</h4>
+                <span style="font-size:12px; color:#999;">4 événements</span>
+            </div>
+            <div style="background:var(--white); padding:20px; border-radius:16px; text-align:center; box-shadow:var(--shadow); cursor:pointer; transition:var(--transition);" onclick="filterByCity('Bobo-Dioulasso')" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+                <i class="fas fa-city" style="font-size:30px; color:var(--secondary);"></i>
+                <h4>Bobo-Dioulasso</h4>
+                <span style="font-size:12px; color:#999;">2 événements</span>
+            </div>
+            <div style="background:var(--white); padding:20px; border-radius:16px; text-align:center; box-shadow:var(--shadow); cursor:pointer; transition:var(--transition);" onclick="filterByCity('Koudougou')" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+                <i class="fas fa-city" style="font-size:30px; color:var(--secondary);"></i>
+                <h4>Koudougou</h4>
+                <span style="font-size:12px; color:#999;">1 événement</span>
+            </div>
+            <div style="background:var(--white); padding:20px; border-radius:16px; text-align:center; box-shadow:var(--shadow); cursor:pointer; transition:var(--transition);" onclick="filterByCity('Dédougou')" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+                <i class="fas fa-city" style="font-size:30px; color:var(--secondary);"></i>
+                <h4>Dédougou</h4>
+                <span style="font-size:12px; color:#999;">1 événement</span>
+            </div>
+        </div>
+
+        <!-- ===== MODAL AUTHENTIFICATION ===== -->
+        <div class="auth-modal-overlay" id="authModal">
+            <div class="auth-modal">
+                <button class="modal-close" onclick="closeAuthModal()"><i class="fas fa-times"></i></button>
+                <div class="auth-header">
+                    <div class="auth-icon"><i class="fas fa-user-circle"></i></div>
+                    <h2 id="authTitle">Connexion</h2>
+                    <p id="authSubtitle">Connectez-vous pour accéder à vos billets et événements</p>
+                </div>
+
+                <div class="auth-tabs">
+                    <button class="active" onclick="switchAuthTab('login')">Connexion</button>
+                    <button onclick="switchAuthTab('register')">Inscription</button>
+                </div>
+
+                <!-- Formulaire de Connexion -->
+                <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope" style="color:var(--secondary);"></i> Adresse email</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" placeholder="exemple@email.com" id="loginEmail" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock" style="color:var(--secondary);"></i> Code d'accès</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="Entrez votre code" id="loginCode" required />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-auth"><i class="fas fa-sign-in-alt"></i> Se connecter</button>
+                    <div class="auth-footer">
+                        Pas encore de compte ? <a onclick="switchAuthTab('register')">Inscrivez-vous</a>
+                    </div>
+                </form>
+
+                <!-- Formulaire d'Inscription -->
+                <form class="auth-form" id="registerForm" onsubmit="handleRegister(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-user" style="color:var(--secondary);"></i> Prénom</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" placeholder="Votre prénom" id="registerFirstname" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-user" style="color:var(--secondary);"></i> Nom</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" placeholder="Votre nom" id="registerLastname" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope" style="color:var(--secondary);"></i> Adresse email</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" placeholder="exemple@email.com" id="registerEmail" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-phone" style="color:var(--secondary);"></i> Numéro de téléphone</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" placeholder="70 00 00 00" id="registerPhone" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock" style="color:var(--secondary);"></i> Code d'accès (4 chiffres)</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="****" id="registerCode" maxlength="4" pattern="[0-9]{4}" required />
+                        </div>
+                    </div>
+                    <div class="code-container">
+                        <input type="text" placeholder="Code de validation" id="validationCode" maxlength="6" />
+                        <button type="button" class="btn-code" onclick="generateValidationCode()">Générer le code</button>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="acceptTerms" required />
+                        <label for="acceptTerms">J'accepte les conditions d'utilisation et la politique de confidentialité</label>
+                    </div>
+                    <button type="submit" class="btn-auth"><i class="fas fa-user-plus"></i> S'inscrire</button>
+                    <div class="auth-footer">
+                        Déjà inscrit ? <a onclick="switchAuthTab('login')">Connectez-vous</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ===== MODAL PRINCIPALE ===== -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal" id="modalContent">
+                <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+                <img class="modal-img" id="modalImg" src="" alt="Image événement" />
+                <div class="modal-category" id="modalCategory">Concert</div>
+                <h2 id="modalTitle">Nom événement</h2>
+                <div class="modal-meta">
+                    <span><i class="fas fa-calendar-alt"></i> <span id="modalDate">12 Juin 2026</span></span>
+                    <span><i class="fas fa-map-marker-alt"></i> <span id="modalLocation">Ouagadougou</span></span>
+                    <span><i class="fas fa-users"></i> <span id="modalCapacity">200 places</span></span>
+                    <span><i class="fas fa-clock"></i> <span id="modalTime">20:00</span></span>
+                </div>
+                <div class="modal-desc" id="modalDesc">
+                    Description complète de l'événement avec tous les détails.
+                </div>
+
+                <div class="modal-price" id="modalPrice">5 000 FCFA</div>
+
+                <div class="quantity-selector">
+                    <label><i class="fas fa-ticket-alt"></i> Nombre de billets :</label>
+                    <input type="number" id="ticketQuantity" value="1" min="1" max="10" />
+                    <span style="font-size:13px; color:#999;">(max 10)</span>
+                </div>
+
+                <div class="modal-payment">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Orange_logo.svg/120px-Orange_logo.svg.png" alt="Orange Money" />
+                    <div class="payment-info">
+                        <strong>Orange Money</strong>
+                        <small>Paiement sécurisé au <strong style="color:var(--primary);">55 30 31 11</strong></small>
+                    </div>
+                    <i class="fas fa-check-circle" style="color:#2e7d32; font-size:22px;"></i>
+                </div>
+
+                <button class="btn-buy-lg" id="modalBuyBtn">
+                    <i class="fas fa-shopping-cart"></i> Acheter avec Orange Money
+                </button>
+
+                <div class="related-events">
+                    <h4><i class="fas fa-link" style="color:var(--secondary);"></i> Événements similaires</h4>
+                    <div class="related-grid" id="relatedGrid">
+                        <!-- Injecté par JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== MODAL ORGANISATEUR ===== -->
+        <div class="modal-overlay" id="organizerModal">
+            <div class="modal" style="max-width:500px;">
+                <button class="modal-close" onclick="closeOrganizerModal()"><i class="fas fa-times"></i></button>
+                <h2 style="margin-bottom:20px;"><i class="fas fa-plus-circle" style="color:var(--secondary);"></i> Organiser un événement</h2>
+                <form class="organizer-form" id="organizerForm">
+                    <input type="text" placeholder="Nom de l'événement" required />
+                    <input type="text" placeholder="Lieu" required />
+                    <input type="date" required />
+                    <input type="time" required />
+                    <input type="text" placeholder="Prix (FCFA)" required />
+                    <select required>
+                        <option value="">Catégorie</option>
+                        <option>Concert</option>
+                        <option>Soirée</option>
+                        <option>Festival</option>
+                        <option>Sport</option>
+                        <option>Théâtre</option>
+                        <option>Culture</option>
+                    </select>
+                    <input type="number" placeholder="Capacité (nombre de places)" required />
+                    <textarea placeholder="Description complète de l'événement" rows="4" required></textarea>
+                    <button type="submit" style="width:100%; padding:14px; background:var(--secondary); color:var(--primary); border:none; border-radius:40px; font-weight:700; font-size:16px; cursor:pointer; transition:var(--transition);">
+                        <i class="fas fa-check"></i> Soumettre l'événement
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer>
+            <div class="footer-links">
+                <a href="#" onclick="showToast('📋 Consultez nos conditions générales', 'info')">Conditions générales</a>
+                <a href="#" onclick="showToast('🔒 Politique de confidentialité', 'info')">Politique de confidentialité</a>
+                <a href="#" onclick="showToast('📧 Contactez-nous à contact@burkinatickets.com', 'info')">Contact</a>
+                <a href="#" onclick="showToast('❓ Foire aux questions', 'info')">FAQ</a>
+                <a href="#" onclick="showToast('📝 Lisez notre blog', 'info')">Blog</a>
+                <a href="#" onclick="showToast('♿ Accessibilité', 'info')">Accessibilité</a>
+            </div>
+            <p><i class="fas fa-ticket-alt"></i> BurkinaTickets — Tous les événements au Burkina Faso • 2026</p>
+            <p style="font-size:12px; margin-top:4px; color:#aaa;">Paiement Orange Money au 55 30 31 11</p>
+        </footer>
+    </div>
+
+    <script>
+        // ============================================================
+        //  DONNÉES ÉVÉNEMENTS
+        // ============================================================
+        const eventsData = [
+            {
+                id: 1,
+                title: "FESPACO 2026 - Nuit des Étoiles",
+                category: "Festival",
+                date: "28 Février 2026",
+                time: "19:00",
+                location: "Ouagadougou",
+                capacity: "500 places",
+                price: "7 500 FCFA",
+                desc: "Grande soirée de clôture du FESPACO avec des projections spéciales, des artistes invités et un dîner gala. Accès aux films primés et rencontre avec les réalisateurs. Une expérience cinématographique unique au cœur de l'Afrique.",
+                img: "https://picsum.photos/seed/fespaco/600/400",
+                popular: true,
+                soldout: false
+            },
+            {
+                id: 2,
+                title: "Concert de Sidiki Diabaté",
+                category: "Concert",
+                date: "15 Mars 2026",
+                time: "20:30",
+                location: "Bobo-Dioulasso",
+                capacity: "350 places",
+                price: "5 000 FCFA",
+                desc: "Le roi du kora en concert exceptionnel à Bobo. Une soirée de musique mandingue avec des invités surprise. Première partie assurée par un groupe local. Ne manquez pas ce voyage musical inoubliable.",
+                img: "https://picsum.photos/seed/sidiki/600/400",
+                popular: true,
+                soldout: false
+            },
+            {
+                id: 3,
+                title: "Soirée Electro-Zouk",
+                category: "Soirée",
+                date: "5 Avril 2026",
+                time: "22:00",
+                location: "Ouagadougou",
+                capacity: "200 places",
+                price: "3 500 FCFA",
+                desc: "DJ set mixant électro et zouk. Ambiance garantie avec un show lumineux et des cocktails exclusifs. Tenue élégante exigée. Une soirée de prestige au cœur de la capitale.",
+                img: "https://picsum.photos/seed/electro/600/400",
+                popular: false,
+                soldout: false
+            },
+            {
+                id: 4,
+                title: "Marathon du Burkina",
+                category: "Sport",
+                date: "20 Mai 2026",
+                time: "06:00",
+                location: "Koudougou",
+                capacity: "1000 coureurs",
+                price: "2 000 FCFA",
+                desc: "Marathon ouvert à tous niveaux. Parcours de 10 km, 21 km et 42 km. Dossards limités. Inclut un T-shirt et une médaille pour chaque finisseur. Venez relever le défi !",
+                img: "https://picsum.photos/seed/marathon/600/400",
+                popular: true,
+                soldout: false
+            },
+            {
+                id: 5,
+                title: "Théâtre - Les Trois Aveugles",
+                category: "Théâtre",
+                date: "10 Juin 2026",
+                time: "19:30",
+                location: "Ouagadougou",
+                capacity: "120 places",
+                price: "4 000 FCFA",
+                desc: "Pièce de théâtre contemporaine burkinabè qui aborde avec humour les défis de la société. Mise en scène par le célèbre metteur en scène Issa Traoré. Un spectacle engagé et divertissant.",
+                img: "https://picsum.photos/seed/theatre/600/400",
+                popular: false,
+                soldout: true
+            },
+            {
+                id: 6,
+                title: "Festival des Masques",
+                category: "Festival",
+                date: "2 Août 2026",
+                time: "16:00",
+                location: "Dédougou",
+                capacity: "800 places",
+                price: "6 000 FCFA",
+                desc: "Le traditionnel festival des masques du Burkina. Danse, rituels, artisanat et gastronomie locale. Une immersion culturelle unique au cœur des traditions ancestrales.",
+                img: "https://picsum.photos/seed/masques/600/400",
+                popular: true,
+                soldout: false
+            },
+            {
+                id: 7,
+                title: "Nuit du Slam",
+                category: "Culture",
+                date: "25 Juillet 2026",
+                time: "20:00",
+                location: "Ouagadougou",
+                capacity: "150 places",
+                price: "2 500 FCFA",
+                desc: "Une nuit dédiée à la poésie et au slam. Venez écouter les meilleurs slameurs du Burkina dans une ambiance intimiste et chaleureuse.",
+                img: "https://picsum.photos/seed/slam/600/400",
+                popular: false,
+                soldout: false
+            },
+            {
+                id: 8,
+                title: "Exposition d'Art Contemporain",
+                category: "Culture",
+                date: "12 Septembre 2026",
+                time: "10:00",
+                location: "Bobo-Dioulasso",
+                capacity: "100 places",
+                price: "1 500 FCFA",
+                desc: "Découvrez les œuvres des artistes contemporains burkinabè. Peintures, sculptures et installations dans un cadre exceptionnel.",
+                img: "https://picsum.photos/seed/art/600/400",
+                popular: false,
+                soldout: false
+            }
+        ];
+
+        // ============================================================
+        //  ÉTAT GLOBAL
+        // ============================================================
+        let currentPage = 1;
+        const itemsPerPage = 4;
+        let currentFilter = 'all';
+        let currentSearch = '';
+        let currentView = 'grid';
+        let currentSort = 'date';
+        let cart = [];
+        let events = [...eventsData];
+        let currentUser = null;
+        let validationCode = '';
+
+        const ORANGE_MONEY_NUMBER = '55 30 31 11';
+
+        // ============================================================
+        //  TOAST NOTIFICATIONS
+        // ============================================================
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+            const color = type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--secondary)';
+            toast.innerHTML = `
+                <i class="fas ${icon} toast-icon" style="color:${color}"></i>
+                <span class="toast-msg">${message}</span>
+                <button class="toast-close" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => { if (toast.parentElement) toast.remove(); }, 5000);
+        }
+
+        // ============================================================
+        //  AUTHENTIFICATION
+        // ============================================================
+        function openAuthModal() {
+            document.getElementById('authModal').classList.add('open');
+            document.getElementById('userMenuDropdown').style.display = 'none';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        function switchAuthTab(tab) {
+            const tabs = document.querySelectorAll('.auth-tabs button');
+            const forms = document.querySelectorAll('.auth-form');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            forms.forEach(f => f.classList.remove('active'));
+            
+            if (tab === 'login') {
+                tabs[0].classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+                document.getElementById('authTitle').textContent = 'Connexion';
+                document.getElementById('authSubtitle').textContent = 'Connectez-vous pour accéder à vos billets et événements';
+            } else {
+                tabs[1].classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+                document.getElementById('authTitle').textContent = 'Inscription';
+                document.getElementById('authSubtitle').textContent = 'Créez votre compte en quelques secondes';
+            }
+        }
+
+        function generateValidationCode() {
+            const code = Math.floor(100000 + Math.random() * 900000).toString();
+            validationCode = code;
+            document.getElementById('validationCode').value = code;
+            showToast(`📱 Votre code de validation : ${code}`, 'success');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const code = document.getElementById('loginCode').value;
+
+            // Vérifier si l'utilisateur existe
+            const users = JSON.parse(localStorage.getItem('burkina_users') || '[]');
+            const user = users.find(u => u.email === email && u.code === code);
+
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('burkina_current_user', JSON.stringify(user));
+                updateUserUI();
+                showToast(`✅ Bienvenue ${user.firstname} ${user.lastname} !`, 'success');
+                closeAuthModal();
+            } else {
+                showToast('❌ Email ou code incorrect. Veuillez réessayer.', 'error');
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const firstname = document.getElementById('registerFirstname').value;
+            const lastname = document.getElementById('registerLastname').value;
+            const email = document.getElementById('registerEmail').value;
+            const phone = document.getElementById('registerPhone').value;
+            const code = document.getElementById('registerCode').value;
+            const validation = document.getElementById('validationCode').value;
+            const acceptTerms = document.getElementById('acceptTerms').checked;
+
+            if (!acceptTerms) {
+                showToast('❌ Veuillez accepter les conditions d\'utilisation', 'error');
+                return;
+            }
+
+            if (validation !== validationCode) {
+                showToast('❌ Code de validation incorrect. Veuillez générer un nouveau code.', 'error');
+                return;
+            }
+
+            // Vérifier si l'email existe déjà
+            const users = JSON.parse(localStorage.getItem('burkina_users') || '[]');
+            if (users.some(u => u.email === email)) {
+                showToast('❌ Cet email est déjà utilisé. Veuillez vous connecter.', 'error');
+                return;
+            }
+
+            // Créer le nouvel utilisateur
+            const newUser = {
+                firstname,
+                lastname,
+                email,
+                phone,
+                code,
+                created: new Date().toISOString()
+            };
+
+            users.push(newUser);
+            localStorage.setItem('burkina_users', JSON.stringify(users));
+
+            currentUser = newUser;
+            localStorage.setItem('burkina_current_user', JSON.stringify(newUser));
+            updateUserUI();
+            showToast(`✅ Bienvenue ${firstname} ${lastname} ! Votre compte a été créé avec succès.`, 'success');
+            closeAuthModal();
+        }
+
+        function updateUserUI() {
+            if (currentUser) {
+                document.getElementById('userDisplayName').textContent = `${currentUser.firstname} ${currentUser.lastname}`;
+                document.getElementById('userDisplayEmail').textContent = currentUser.email;
+                document.getElementById('authMenuItem').style.display = 'none';
+                document.getElementById('logoutMenuItem').style.display = 'flex';
+            } else {
+                document.getElementById('userDisplayName').textContent = 'Invité';
+                document.getElementById('userDisplayEmail').textContent = 'Non connecté';
+                document.getElementById('authMenuItem').style.display = 'flex';
+                document.getElementById('logoutMenuItem').style.display = 'none';
+            }
+        }
+
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userMenuDropdown');
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+            } else {
+                dropdown.style.display = 'block';
+            }
+        }
+
+        function handleUserAction(action) {
+            document.getElementById('userMenuDropdown').style.display = 'none';
+            if (action === 'deconnexion') {
+                currentUser = null;
+                localStorage.removeItem('burkina_current_user');
+                updateUserUI();
+                showToast('👋 Vous avez été déconnecté avec succès', 'info');
+                return;
+            }
+            if (!currentUser) {
+                openAuthModal();
+                return;
+            }
+            const actions = {
+                'profil': `👤 ${currentUser.firstname} ${currentUser.lastname}\n📧 ${currentUser.email}\n📱 ${currentUser.phone}`,
+                'commandes': '📦 Vous n\'avez pas encore de commandes',
+                'billets': `🎫 ${cart.length} billet(s) dans votre panier`,
+                'favoris': '❤️ Vous n\'avez pas encore de favoris'
+            };
+            showToast(actions[action] || 'Action en cours de développement', 'info');
+            if (action === 'billets') showMyTickets();
+        }
+
+        // ============================================================
+        //  RENDU DES CARTES
+        // ============================================================
+        function createCardHTML(ev) {
+            const soldoutHtml = ev.soldout ? `<span class="badge-soldout">COMPLET</span>` : '';
+            return `
+                <div class="event-card" data-id="${ev.id}" data-category="${ev.category}">
+                    <div class="event-img">
+                        <img src="${ev.img}" alt="${ev.title}" loading="lazy" />
+                        <span class="badge">${ev.category}</span>
+                        ${!ev.soldout ? '<span class="badge-live">● EN COURS</span>' : ''}
+                        ${soldoutHtml}
+                    </div>
+                    <div class="event-body">
+                        <div class="category">${ev.category}</div>
+                        <h3>${ev.title}</h3>
+                        <div class="meta">
+                            <span><i class="fas fa-calendar-alt"></i> ${ev.date}</span>
+                            <span><i class="fas fa-map-marker-alt"></i> ${ev.location}</span>
+                            <span><i class="fas fa-clock"></i> ${ev.time}</span>
+                        </div>
+                        <div class="price">${ev.price} <small>FCFA</small></div>
+                        <div class="actions">
+                            <a href="#event-${ev.id}" class="btn-details" data-id="${ev.id}">
+                                <i class="fas fa-info-circle"></i> Détails
+                            </a>
+                            <a href="#buy-${ev.id}" class="btn-buy" data-id="${ev.id}" ${ev.soldout ? 'disabled' : ''}>
+                                <i class="fas ${ev.soldout ? 'fa-times-circle' : 'fa-shopping-cart'}"></i>
+                                ${ev.soldout ? 'Complet' : 'Acheter'}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getFilteredEvents() {
+            let filtered = [...events];
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(ev => ev.category.toLowerCase().includes(currentFilter.toLowerCase()));
+            }
+            if (currentSearch) {
+                const search = currentSearch.toLowerCase();
+                filtered = filtered.filter(ev => 
+                    ev.title.toLowerCase().includes(search) ||
+                    ev.location.toLowerCase().includes(search) ||
+                    ev.category.toLowerCase().includes(search)
+                );
+            }
+            return filtered;
+        }
+
+        function renderEvents() {
+            const grid = document.getElementById('eventsGrid');
+            const filtered = getFilteredEvents();
+            
+            const totalPages = Math.ceil(filtered.length / itemsPerPage);
+            if (currentPage > totalPages) currentPage = 1;
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageItems = filtered.slice(start, end);
+
+            document.getElementById('eventCount').textContent = filtered.length;
+
+            if (pageItems.length === 0) {
+                grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; padding:50px; color:#999; font-size:18px;">
+                    <i class="fas fa-search" style="font-size:30px; display:block; margin-bottom:10px;"></i>
+                    Aucun événement trouvé
+                </p>`;
+            } else {
+                grid.innerHTML = pageItems.map(ev => createCardHTML(ev)).join('');
+            }
+
+            if (currentView === 'list') {
+                grid.classList.add('list-view');
+            } else {
+                grid.classList.remove('list-view');
+            }
+
+            renderPagination(totalPages);
+            attachCardEvents();
+        }
+
+        function renderPagination(totalPages) {
+            const container = document.getElementById('pagination');
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+            let html = `<button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button onclick="changePage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+            html += `<button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
+            container.innerHTML = html;
+        }
+
+        function changePage(page) {
+            const filtered = getFilteredEvents();
+            const totalPages = Math.ceil(filtered.length / itemsPerPage);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderEvents();
+            document.getElementById('eventsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ============================================================
+        //  RENDU POPULAIRES
+        // ============================================================
+        function renderPopular() {
+            const grid = document.getElementById('popularGrid');
+            const populars = events.filter(ev => ev.popular);
+            grid.innerHTML = populars.map(ev => createCardHTML(ev)).join('');
+            attachCardEvents();
+        }
+
+        // ============================================================
+        //  ATTACHEMENT DES ÉVÉNEMENTS SUR LES CARTES
+        // ============================================================
+        function attachCardEvents() {
+            document.querySelectorAll('.btn-details').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const id = parseInt(this.dataset.id);
+                    openModal(id);
+                });
+            });
+            document.querySelectorAll('.btn-buy').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (this.disabled) {
+                        showToast('Cet événement est complet', 'error');
+                        return;
+                    }
+                    const id = parseInt(this.dataset.id);
+                    openModal(id);
+                });
+            });
+            document.querySelectorAll('.event-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (e.target.closest('.btn-details') || e.target.closest('.btn-buy')) return;
+                    const id = parseInt(this.dataset.id);
+                    openModal(id);
+                });
+            });
+        }
+
+        // ============================================================
+        //  MODAL PRINCIPALE
+        // ============================================================
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalClose = document.getElementById('modalClose');
+        const modalImg = document.getElementById('modalImg');
+        const modalCategory = document.getElementById('modalCategory');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDate = document.getElementById('modalDate');
+        const modalTime = document.getElementById('modalTime');
+        const modalLocation = document.getElementById('modalLocation');
+        const modalCapacity = document.getElementById('modalCapacity');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalBuyBtn = document.getElementById('modalBuyBtn');
+        const relatedGrid = document.getElementById('relatedGrid');
+        const ticketQuantity = document.getElementById('ticketQuantity');
+
+        function openModal(id) {
+            const ev = events.find(e => e.id === id);
+            if (!ev) return;
+
+            modalImg.src = ev.img;
+            modalImg.alt = ev.title;
+            modalCategory.textContent = ev.category;
+            modalTitle.textContent = ev.title;
+            modalDate.textContent = ev.date;
+            modalTime.textContent = ev.time;
+            modalLocation.textContent = ev.location;
+            modalCapacity.textContent = ev.capacity;
+            modalDesc.textContent = ev.desc;
+            modalPrice.textContent = ev.price;
+
+            modalBuyBtn.disabled = ev.soldout;
+            modalBuyBtn.innerHTML = ev.soldout 
+                ? '<i class="fas fa-times-circle"></i> Complet' 
+                : `<i class="fas fa-shopping-cart"></i> Acheter avec Orange Money (${ORANGE_MONEY_NUMBER})`;
+            ticketQuantity.disabled = ev.soldout;
+
+            const related = events.filter(e => e.id !== id && e.category === ev.category).slice(0, 4);
+            relatedGrid.innerHTML = '';
+            if (related.length === 0) {
+                relatedGrid.innerHTML = '<p style="grid-column:1/-1; color:#999; font-size:13px;">Aucun événement similaire</p>';
+            } else {
+                related.forEach(e => {
+                    const item = document.createElement('a');
+                    item.href = `#event-${e.id}`;
+                    item.className = 'related-item';
+                    item.innerHTML = `
+                        <img src="${e.img}" alt="${e.title}" loading="lazy" />
+                        <div class="r-title">${e.title}</div>
+                        <div style="font-size:11px; color:var(--secondary); font-weight:600;">${e.price}</div>
+                    `;
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        openModal(parseInt(this.dataset.id));
+                    });
+                    item.dataset.id = e.id;
+                    relatedGrid.appendChild(item);
+                });
+            }
+
+            modalBuyBtn.onclick = function() {
+                if (this.disabled) {
+                    showToast('Cet événement est complet', 'error');
+                    return;
+                }
+                if (!currentUser) {
+                    showToast('🔐 Veuillez vous connecter ou vous inscrire pour acheter des billets', 'error');
+                    closeModal();
+                    openAuthModal();
+                    return;
+                }
+                const qty = parseInt(ticketQuantity.value) || 1;
+                const priceNum = parseInt(ev.price.replace(/\s/g, '').replace('FCFA', ''));
+                const total = priceNum * qty;
+                
+                showToast(`✅ Achat de ${qty} billet(s) pour "${ev.title}"\n💰 Montant : ${total.toLocaleString()} FCFA\n📱 Paiement Orange Money au ${ORANGE_MONEY_NUMBER}\n📲 Un code de confirmation vous sera envoyé par SMS.`, 'success');
+                
+                cart.push({ ...ev, quantity: qty, total: total });
+                updateCartBadge();
+                modalOverlay.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            };
+
+            modalOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            history.pushState({ modal: true, id: id }, '', `#event-${id}`);
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+            if (window.location.hash) {
+                history.pushState({}, '', window.location.pathname);
+            }
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Gestion du hash
+        window.addEventListener('hashchange', function() {
+            const hash = window.location.hash;
+            if (hash.startsWith('#event-')) {
+                const id = parseInt(hash.replace('#event-', ''));
+                if (!isNaN(id) && events.some(e => e.id === id)) {
+                    openModal(id);
+                }
+            }
+        });
+        if (window.location.hash.startsWith('#event-')) {
+            const id = parseInt(window.location.hash.replace('#event-', ''));
+            if (!isNaN(id) && events.some(e => e.id === id)) {
+                setTimeout(() => openModal(id), 300);
+            }
+        }
+
+        // ============================================================
+        //  FILTRES
+        // ============================================================
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function() {
+            currentSearch = this.value.trim();
+            currentPage = 1;
+            renderEvents();
+            document.querySelectorAll('#filterTags span').forEach(t => t.classList.remove('active'));
+        });
+
+        document.querySelectorAll('#filterTags span').forEach(tag => {
+            tag.addEventListener('click', function() {
+                document.querySelectorAll('#filterTags span').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                currentPage = 1;
+                renderEvents();
+                searchInput.value = '';
+                currentSearch = '';
+            });
+        });
+
+        // ============================================================
+        //  VUE ET TRI
+        // ============================================================
+        function setView(view) {
+            currentView = view;
+            document.querySelectorAll('.view-options button').forEach(b => b.classList.remove('active'));
+            if (view === 'grid') {
+                document.querySelector('.view-options button:first-child').classList.add('active');
+            } else {
+                document.querySelector('.view-options button:nth-child(2)').classList.add('active');
+            }
+            renderEvents();
+        }
+
+        function sortEvents() {
+            const sorts = ['date', 'price-asc', 'price-desc'];
+            const currentIndex = sorts.indexOf(currentSort);
+            currentSort = sorts[(currentIndex + 1) % sorts.length];
+            const sortLabels = { 'date': '📅 Tri par date', 'price-asc': '💰 Prix croissant', 'price-desc': '💰 Prix décroissant' };
+            showToast(sortLabels[currentSort], 'info');
+            
+            if (currentSort === 'date') {
+                events.sort((a, b) => new Date(a.date) - new Date(b.date));
+            } else if (currentSort === 'price-asc') {
+                events.sort((a, b) => parseInt(a.price.replace(/\s/g, '')) - parseInt(b.price.replace(/\s/g, '')));
+            } else if (currentSort === 'price-desc') {
+                events.sort((a, b) => parseInt(b.price.replace(/\s/g, '')) - parseInt(a.price.replace(/\s/g, '')));
+            }
+            currentPage = 1;
+            renderEvents();
+        }
+
+        // ============================================================
+        //  FILTRE PAR VILLE
+        // ============================================================
+        function filterByCity(city) {
+            currentSearch = city;
+            searchInput.value = city;
+            document.querySelectorAll('#filterTags span').forEach(t => t.classList.remove('active'));
+            currentFilter = 'all';
+            currentPage = 1;
+            renderEvents();
+            showToast(`📍 Événements à ${city}`, 'info');
+            document.getElementById('events').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ============================================================
+        //  PANIER / MES BILLETS
+        // ============================================================
+        function updateCartBadge() {
+            const badge = document.getElementById('cartCount');
+            badge.textContent = cart.length;
+            const notifBadge = document.getElementById('notifBadge');
+            notifBadge.textContent = cart.length + 3;
+        }
+
+        function showMyTickets() {
+            if (cart.length === 0) {
+                showToast('🛒 Vous n\'avez aucun billet dans votre panier', 'error');
+                return;
+            }
+            let total = 0;
+            let msg = '🎫 <strong>Vos billets :</strong><br><br>';
+            cart.forEach((item, i) => {
+                const itemTotal = parseInt(item.price.replace(/\s/g, '')) * item.quantity;
+                total += itemTotal;
+                msg += `${i+1}. ${item.title} — ${item.quantity}x ${item.price} = ${itemTotal.toLocaleString()} FCFA<br>`;
+            });
+            msg += `<br><strong>Total : ${total.toLocaleString()} FCFA</strong>`;
+            msg += `<br><br>📱 Paiement Orange Money au <strong>${ORANGE_MONEY_NUMBER}</strong>`;
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+                display: flex; justify-content: center; align-items: center;
+                z-index: 9999; padding: 20px;
+            `;
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 20px; padding: 30px; max-width: 450px; width: 100%; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <h2 style="color: var(--primary);"><i class="fas fa-ticket-alt" style="color: var(--secondary);"></i> Mes billets</h2>
+                        <button onclick="this.closest('div[style]').remove()" style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
+                    </div>
+                    <div style="color: #333; line-height: 1.8;">${msg}</div>
+                    <button onclick="this.closest('div[style]').remove()" style="width:100%; margin-top:20px; padding:12px; background: var(--secondary); color: var(--primary); border: none; border-radius: 40px; font-weight: 700; cursor: pointer;">
+                        <i class="fas fa-check"></i> Fermer
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) this.remove();
+            });
+        }
+
+        // ============================================================
+        //  NOTIFICATIONS
+        // ============================================================
+        function showNotifications() {
+            const notifMsg = cart.length > 0 
+                ? `🔔 Vous avez ${cart.length} billet(s) dans votre panier\n📱 Paiement Orange Money au ${ORANGE_MONEY_NUMBER}`
+                : '🔔 Vous n\'avez aucune notification';
+            showToast(notifMsg, 'info');
+        }
+
+        // ============================================================
+        //  RECHERCHE
+        // ============================================================
+        function toggleSearch() {
+            searchInput.focus();
+        }
+
+        // ============================================================
+        //  MODAL ORGANISATEUR
+        // ============================================================
+        function openOrganizerModal() {
+            if (!currentUser) {
+                showToast('🔐 Veuillez vous connecter pour organiser un événement', 'error');
+                openAuthModal();
+                return;
+            }
+            document.getElementById('organizerModal').classList.add('open');
+        }
+
+        function closeOrganizerModal() {
+            document.getElementById('organizerModal').classList.remove('open');
+        }
+
+        document.getElementById('organizerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showToast('✅ Votre événement a été soumis avec succès ! Nous vous contacterons sous 48h.', 'success');
+            this.reset();
+            closeOrganizerModal();
+        });
+
+        // ============================================================
+        //  NAVIGATION INTERNE
+        // ============================================================
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                const page = this.dataset.page;
+                if (page === 'home') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else if (page === 'events') {
+                    document.getElementById('events').scrollIntoView({ behavior: 'smooth' });
+                } else if (page === 'popular') {
+                    document.getElementById('popular').scrollIntoView({ behavior: 'smooth' });
+                } else if (page === 'cities') {
+                    document.getElementById('cities').scrollIntoView({ behavior: 'smooth' });
+                } else if (page === 'about') {
+                    showToast('📍 BurkinaTickets - La plateforme de billetterie événementielle du Burkina Faso\n📱 Paiement Orange Money au 55 30 31 11', 'info');
+                }
+            });
+        });
+
+        // Fermer le menu utilisateur en cliquant ailleurs
+        document.addEventListener('click', function(e) {
+            const wrapper = document.querySelector('.user-menu-wrapper');
+            if (wrapper && !wrapper.contains(e.target)) {
+                document.getElementById('userMenuDropdown').style.display = 'none';
+            }
+        });
+
+        // ============================================================
+        //  INIT
+        // ============================================================
+        // Restaurer la session utilisateur
+        const savedUser = localStorage.getItem('burkina_current_user');
+        if (savedUser) {
+            currentUser = JSON.parse(savedUser);
+            updateUserUI();
+        }
+
+        renderEvents();
+        renderPopular();
+        updateCartBadge();
+
+        console.log('✅ Burkina Tickets — Plateforme événementielle chargée avec succès !');
+        console.log(`📊 ${events.length} événements disponibles.`);
+        console.log(`📱 Paiement Orange Money au ${ORANGE_MONEY_NUMBER}`);
+        console.log('🔐 Système d\'authentification (connexion/inscription) activé.');
+        console.log('🛒 Système de panier, pagination, tri, filtres, modales et notifications activés.');
+    </script>
+</body>
+</html>
